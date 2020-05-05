@@ -526,14 +526,6 @@ bool CFloatingDockContainer::event(QEvent *e)
 		}
 		break;
 
-	case DraggingFloatingWidget:
-		if (e->type() == QEvent::NonClientAreaMouseButtonRelease)
-		{
-			ADS_PRINT("FloatingWidget::event QEvent::NonClientAreaMouseButtonRelease");
-			d->titleMouseReleaseEvent();
-		}
-		break;
-
 	default:
 		break;
 	}
@@ -570,9 +562,12 @@ bool CFloatingDockContainer::eventFilter(QObject *watched, QEvent *e)
 		if (d->DragStartPos == pos())
 		{
 			d->handleEscapeKey();
-			return true;
 		}
-		return false;
+		else
+		{
+			d->titleMouseReleaseEvent();
+		}
+		return true;
 	}
 
 #if (ADS_DEBUG_LEVEL > 0)
