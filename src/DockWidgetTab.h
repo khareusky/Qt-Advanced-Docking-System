@@ -56,7 +56,7 @@ private:
 	friend class CDockWidget;
 	void onDockWidgetFeaturesChanged();
 
-private slots:
+private Q_SLOTS:
 	void detachDockWidget();
 
 protected:
@@ -153,10 +153,10 @@ public:
 	void setElideMode(Qt::TextElideMode mode);
 
 
-public slots:
+public Q_SLOTS:
 	virtual void setVisible(bool visible) override;
 
-signals:
+Q_SIGNALS:
 	void activeTabChanged();
 	void clicked();
 	void closeRequested();

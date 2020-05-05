@@ -405,13 +405,13 @@ public:
 	 */
 	static int startDragDistance();
 
-public slots:
+public Q_SLOTS:
 	/**
 	 * Opens the perspective with the given name.
 	 */
 	void openPerspective(const QString& PerspectiveName);
 
-signals:
+Q_SIGNALS:
 	/**
 	 * This signal is emitted if the list of perspectives changed
 	 */

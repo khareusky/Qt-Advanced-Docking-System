@@ -66,7 +66,7 @@ private:
 	friend struct DockManagerPrivate;
 	friend class CDockManager;
 
-private slots:
+private Q_SLOTS:
 	void onTabCloseRequested(int Index);
 
 	/**
@@ -137,7 +137,7 @@ protected:
 	 */
 	void markTitleBarMenuOutdated();
 
-protected slots:
+protected Q_SLOTS:
 	void toggleView(bool Open);
 
 public:
@@ -277,7 +277,7 @@ public:
 	 */
 	CDockAreaTitleBar* titleBar() const;
 
-public slots:
+public Q_SLOTS:
 	/**
 	 * This activates the tab for the given tab index.
 	 * If the dock widget for the given tab is not visible, the this function
@@ -295,7 +295,7 @@ public slots:
 	 */
 	void closeOtherAreas();
 
-signals:
+Q_SIGNALS:
 	/**
 	 * This signal is emitted when user clicks on a tab at an index.
 	 */

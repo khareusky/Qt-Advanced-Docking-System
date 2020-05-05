@@ -75,7 +75,7 @@ public:
 	 */
 	void setTitle(const QString &Text);
 
-signals:
+Q_SIGNALS:
 	/**
 	 * This signal is emitted, if the close button is clicked.
 	 */
