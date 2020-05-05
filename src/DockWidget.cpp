@@ -301,8 +301,9 @@ QWidget* CDockWidget::takeWidget()
 	{
 		d->Layout->removeWidget(d->Widget);
 		w = d->Widget;
-		d->Widget = nullptr;
 	}
+
+	d->Widget = nullptr;
 
 	if (w)
 	{
@@ -851,7 +852,7 @@ bool CDockWidget::closeDockWidgetInternal(bool ForceClose)
 
 	if (!isClosed())
 	{
-		d->ClosedProgrammatically = ForceClose;
+		d->ClosedProgrammatically = ForceClose; // WG CHANGES
 	}
 
 	if (features().testFlag(CDockWidget::DockWidgetDeleteOnClose))
