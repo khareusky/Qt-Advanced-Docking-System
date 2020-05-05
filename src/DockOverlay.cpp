@@ -479,7 +479,7 @@ void CDockOverlay::paintEvent(QPaintEvent* event)
 
 	QRect r = rect();
 	const DockWidgetArea da = dropAreaUnderCursor();
-	double Factor = (CDockOverlay::ModeContainerOverlay == d->Mode) ?
+	int Factor = (CDockOverlay::ModeContainerOverlay == d->Mode) ?
 		3 : 2;
 
 	switch (da)

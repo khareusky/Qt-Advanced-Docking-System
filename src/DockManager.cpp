@@ -833,7 +833,7 @@ bool CDockManager::isRestoringState() const
 //===========================================================================
 int CDockManager::startDragDistance()
 {
-	return QApplication::startDragDistance() * 1.5;
+	return static_cast<int>(QApplication::startDragDistance() * 1.5);
 }
 
 
