@@ -341,6 +341,11 @@ public:
     bool isClosed() const;
 
     /**
+     * Returns true, if this dock widget is closed programmatically.
+     */
+    bool isProgrammaticallyClosed() const;
+
+    /**
      * Returns a checkable action that can be used to show or close this dock widget.
      * The action's text is set to the dock widget's window title.
      */

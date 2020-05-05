@@ -75,6 +75,7 @@ struct DockWidgetPrivate
 	CDockAreaWidget* DockArea = nullptr;
 	QAction* ToggleViewAction = nullptr;
 	bool Closed = false;
+	bool ClosedProgrammatically = false;
 	QScrollArea* ScrollArea = nullptr;
 	QToolBar* ToolBar = nullptr;
 	Qt::ToolButtonStyle ToolBarStyleDocked = Qt::ToolButtonIconOnly;
@@ -130,6 +131,8 @@ DockWidgetPrivate::DockWidgetPrivate(CDockWidget* _public) :
 //============================================================================
 void DockWidgetPrivate::showDockWidget()
 {
+	ClosedProgrammatically = false;
+
 	if (!DockArea)
 	{
 		CFloatingDockContainer* FloatingWidget = new CFloatingDockContainer(_this);
@@ -421,6 +424,18 @@ bool CDockWidget::isInFloatingContainer() const
 bool CDockWidget::isClosed() const
 {
 	return d->Closed;
+}
+
+
+//============================================================================
+bool CDockWidget::isProgrammaticallyClosed() const
+{
+	if (!isClosed())
+	{
+		return false;
+	}
+
+	return d->ClosedProgrammatically;
 }
 
 
@@ -832,6 +847,11 @@ bool CDockWidget::closeDockWidgetInternal(bool ForceClose)
 	if (!ForceClose && features().testFlag(CDockWidget::CustomCloseHandling))
 	{
 		return false;
+	}
+
+	if (!isClosed())
+	{
+		d->ClosedProgrammatically = ForceClose;
 	}
 
 	if (features().testFlag(CDockWidget::DockWidgetDeleteOnClose))
