@@ -162,6 +162,8 @@ public:
 		HideSingleCentralWidgetTitleBar = 0x100000, //!< If there is only one single visible dock widget in the main dock container (the dock manager) and if this flag is set, then the titlebar of this dock widget will be hidden
 		                                            //!< this only makes sense for non draggable and non floatable widgets and enables the creation of some kind of "central" widget
 
+		DragPreviewHasFixedSize = HideSingleCentralWidgetTitleBar << 2,
+
 
         DefaultDockAreaButtons = DockAreaHasCloseButton
 							   | DockAreaHasUndockButton

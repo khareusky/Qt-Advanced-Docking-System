@@ -260,6 +260,11 @@ bool DockWidgetTabPrivate::startFloating(eDragState DraggingState)
 		Size = DockArea->size();
 	}
 
+	if (testConfigFlag(CDockManager::DragPreviewHasFixedSize))
+	{
+		Size = { 500, 600 };
+	}
+
     if (DraggingFloatingWidget == DraggingState)
     {
         FloatingWidget->startFloating(DragStartMousePosition, Size, DraggingFloatingWidget, _this);
