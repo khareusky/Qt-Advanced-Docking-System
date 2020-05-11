@@ -755,6 +755,14 @@ void CDockAreaWidget::saveState(QXmlStreamWriter& s) const
 {
 	s.writeStartElement("Area");
 	s.writeAttribute("Tabs", QString::number(d->ContentsLayout->count()));
+	for (int i = LeftDockWidgetArea; i <= CenterDockWidgetArea; ++i)
+	{
+		if (dockContainer()->lastAddedDockAreaWidget(static_cast<DockWidgetArea>(i)) == this)
+		{
+			s.writeAttribute("LastAddedArea", QString::number(i));
+			break;
+		}
+	}
 	auto CurrentDockWidget = currentDockWidget();
 	QString Name = CurrentDockWidget ? CurrentDockWidget->objectName() : "";
 	s.writeAttribute("Current", Name);

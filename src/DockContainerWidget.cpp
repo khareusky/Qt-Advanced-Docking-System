@@ -918,6 +918,12 @@ bool DockContainerWidgetPrivate::restoreDockArea(CDockingStateReader& s,
 	if (!Testing)
 	{
 		DockArea = new CDockAreaWidget(DockManager, _this);
+
+		const auto lastAddedArea = static_cast<DockWidgetArea>(s.attributes().value("LastAddedArea").toInt(&Ok));
+		if (Ok)
+		{
+			LastAddedAreaCache[areaIdToIndex(lastAddedArea)] = DockArea;
+		}
 	}
 
 	while (s.readNextStartElement())
