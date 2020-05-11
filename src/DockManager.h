@@ -269,16 +269,39 @@ public:
 	CFloatingDockContainer* addDockWidgetFloating(CDockWidget* Dockwidget);
 
 	/**
-	 * Searches for a registered doc widget with the given ObjectName
+	 * Searches for a registered doc widget with the given ObjectName.
+	 * If parameter create is on then tries to create dock widget with dockWidgetFactoryFunc.
 	 * \return Return the found dock widget or nullptr if a dock widget with the
 	 * given name is not registered
 	 */
-	CDockWidget* findDockWidget(const QString& ObjectName) const;
+	CDockWidget* findDockWidget(const QString& ObjectName, bool create = false);
 
 	/**
 	 * Remove the given Dock from the dock manager
 	 */
 	void removeDockWidget(CDockWidget* Dockwidget);
+
+	/**
+	 * @brief Registers a DockWidgetFactoryFunc.
+	 *
+	 * This is optional, the default is nullptr.
+	 *
+	 * A DockWidgetFactoryFunc is a function that receives a dock widget ObjectName
+	 * and returns a CDockWidget instance.
+	 *
+	 * While restoring, @ref restoreState requires all dock widgets to exist.
+	 * If a DockWidget doesn't exist then a DockWidgetFactoryFunc function is
+	 * required, so the restoreState can ask to create the DockWidget and then
+	 * restore it.
+	*/
+	using CDockWidgetFactoryFunc = std::function<CDockWidget*(const QString & ObjectName)>;
+	void setDockWidgetFactoryFunc(CDockWidgetFactoryFunc value);
+
+	/**
+	 * @brief Returns the DockWidgetFactoryFunc.
+	 * nullptr by default
+	 */
+	const CDockWidgetFactoryFunc& dockWidgetFactoryFunc() const;
 
 	/**
 	 * This function returns a readable reference to the internal dock

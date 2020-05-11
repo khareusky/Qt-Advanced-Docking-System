@@ -558,6 +558,7 @@ void CDockWidget::saveState(QXmlStreamWriter& s) const
 	s.writeStartElement("Widget");
 	s.writeAttribute("Name", objectName());
 	s.writeAttribute("Closed", QString::number(d->Closed ? 1 : 0));
+	s.writeAttribute("ClosedProgrammatically", QString::number(d->ClosedProgrammatically ? 1 : 0));
 	s.writeEndElement();
 }
 
@@ -795,6 +796,11 @@ void CDockWidget::setClosedState(bool Closed)
 	d->Closed = Closed;
 }
 
+//============================================================================
+void CDockWidget::setClosedProgrammaticallyState(bool Closed)
+{
+	d->ClosedProgrammatically = Closed;
+}
 
 //============================================================================
 QSize CDockWidget::minimumSizeHint() const

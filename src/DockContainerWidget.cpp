@@ -945,9 +945,28 @@ bool DockContainerWidgetPrivate::restoreDockArea(CDockingStateReader& s,
 			return false;
 		}
 
+		bool ClosedProgrammatically = s.attributes().value("ClosedProgrammatically").toInt(&Ok);
+		if (!Ok)
+		{
+			return false;
+		}
+
 		s.skipCurrentElement();
-		CDockWidget* DockWidget = DockManager->findDockWidget(ObjectName.toString());
-		if (!DockWidget || Testing)
+		CDockWidget* DockWidget = DockManager->findDockWidget(ObjectName.toString(), true);
+		if (Testing)
+		{
+			continue;
+		}
+
+		if (!DockWidget)
+		{
+			if (const auto& func = DockManager->dockWidgetFactoryFunc())
+			{
+				DockWidget = func(ObjectName.toString());
+			}
+		}
+
+		if (!DockWidget)
 		{
 			continue;
 		}
@@ -959,6 +978,7 @@ bool DockContainerWidgetPrivate::restoreDockArea(CDockingStateReader& s,
 		DockArea->addDockWidget(DockWidget);
 		DockWidget->setToggleViewActionChecked(!Closed);
 		DockWidget->setClosedState(Closed);
+		DockWidget->setClosedProgrammaticallyState(ClosedProgrammatically);
 		DockWidget->setProperty(internal::ClosedProperty, Closed);
 		DockWidget->setProperty(internal::DirtyProperty, false);
 	}

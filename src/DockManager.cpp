@@ -84,6 +84,7 @@ struct DockManagerPrivate
 	QList<CDockContainerWidget*> Containers;
 	CDockOverlay* ContainerOverlay;
 	CDockOverlay* DockAreaOverlay;
+	CDockManager::CDockWidgetFactoryFunc DockWidgetFactoryFunc;
 	QMap<QString, CDockWidget*> DockWidgetsMap;
 	QMap<QString, QByteArray> Perspectives;
 	QMap<QString, QMenu*> ViewMenuGroups;
@@ -656,9 +657,22 @@ CDockAreaWidget* CDockManager::addDockWidgetTabToArea(CDockWidget* Dockwidget,
 
 
 //============================================================================
-CDockWidget* CDockManager::findDockWidget(const QString& ObjectName) const
+CDockWidget* CDockManager::findDockWidget(const QString& ObjectName, bool create)
 {
-	return d->DockWidgetsMap.value(ObjectName, nullptr);
+	auto* DockWidget = d->DockWidgetsMap.value(ObjectName, nullptr);
+	if (!DockWidget && create)
+	{
+		if (const auto& func = dockWidgetFactoryFunc())
+		{
+			if (DockWidget = func(ObjectName))
+			{
+				DockWidget->setDockManager(this);
+				d->DockWidgetsMap.insert(ObjectName, DockWidget);
+			}
+		}
+	}
+
+	return DockWidget;
 }
 
 //============================================================================
@@ -668,6 +682,18 @@ void CDockManager::removeDockWidget(CDockWidget* Dockwidget)
 	d->DockWidgetsMap.remove(Dockwidget->objectName());
 	CDockContainerWidget::removeDockWidget(Dockwidget);
 	emit dockWidgetRemoved(Dockwidget);
+}
+
+//============================================================================
+void CDockManager::setDockWidgetFactoryFunc(CDockWidgetFactoryFunc value)
+{
+	d->DockWidgetFactoryFunc = std::move(value);
+}
+
+//============================================================================
+const CDockManager::CDockWidgetFactoryFunc& CDockManager::dockWidgetFactoryFunc() const
+{
+	return d->DockWidgetFactoryFunc;
 }
 
 //============================================================================

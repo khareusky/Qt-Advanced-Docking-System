@@ -129,6 +129,7 @@ protected:
      * a saved docking state
      */
     void setClosedState(bool Closed);
+    void setClosedProgrammaticallyState(bool Closed);
 
     /**
      * Internal toggle view function that does not check if the widget
