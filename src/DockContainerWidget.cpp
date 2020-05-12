@@ -952,19 +952,13 @@ bool DockContainerWidgetPrivate::restoreDockArea(CDockingStateReader& s,
 		}
 
 		s.skipCurrentElement();
-		CDockWidget* DockWidget = DockManager->findDockWidget(ObjectName.toString(), true);
+
 		if (Testing)
 		{
 			continue;
 		}
 
-		if (!DockWidget)
-		{
-			if (const auto& func = DockManager->dockWidgetFactoryFunc())
-			{
-				DockWidget = func(ObjectName.toString());
-			}
-		}
+		CDockWidget* DockWidget = DockManager->findDockWidget(ObjectName.toString(), true);
 
 		if (!DockWidget)
 		{

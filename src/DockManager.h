@@ -282,28 +282,6 @@ public:
 	void removeDockWidget(CDockWidget* Dockwidget);
 
 	/**
-	 * @brief Registers a DockWidgetFactoryFunc.
-	 *
-	 * This is optional, the default is nullptr.
-	 *
-	 * A DockWidgetFactoryFunc is a function that receives a dock widget ObjectName
-	 * and returns a CDockWidget instance.
-	 *
-	 * While restoring, @ref restoreState requires all dock widgets to exist.
-	 * If a DockWidget doesn't exist then a DockWidgetFactoryFunc function is
-	 * required, so the restoreState can ask to create the DockWidget and then
-	 * restore it.
-	*/
-	using CDockWidgetFactoryFunc = std::function<CDockWidget*(const QString & ObjectName)>;
-	void setDockWidgetFactoryFunc(CDockWidgetFactoryFunc value);
-
-	/**
-	 * @brief Returns the DockWidgetFactoryFunc.
-	 * nullptr by default
-	 */
-	const CDockWidgetFactoryFunc& dockWidgetFactoryFunc() const;
-
-	/**
 	 * This function returns a readable reference to the internal dock
 	 * widgets map so that it is possible to iterate over all dock widgets
 	 */

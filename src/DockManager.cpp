@@ -53,6 +53,7 @@
 #include "DockAreaWidget.h"
 #include "IconProvider.h"
 #include "DockingStateReader.h"
+#include "DockComponentsFactory.h"
 
 
 /**
@@ -84,7 +85,6 @@ struct DockManagerPrivate
 	QList<CDockContainerWidget*> Containers;
 	CDockOverlay* ContainerOverlay;
 	CDockOverlay* DockAreaOverlay;
-	CDockManager::CDockWidgetFactoryFunc DockWidgetFactoryFunc;
 	QMap<QString, CDockWidget*> DockWidgetsMap;
 	QMap<QString, QByteArray> Perspectives;
 	QMap<QString, QMenu*> ViewMenuGroups;
@@ -662,13 +662,10 @@ CDockWidget* CDockManager::findDockWidget(const QString& ObjectName, bool create
 	auto* DockWidget = d->DockWidgetsMap.value(ObjectName, nullptr);
 	if (!DockWidget && create)
 	{
-		if (const auto& func = dockWidgetFactoryFunc())
+		if (DockWidget = componentsFactory()->createDockWidget(ObjectName))
 		{
-			if (DockWidget = func(ObjectName))
-			{
-				DockWidget->setDockManager(this);
-				d->DockWidgetsMap.insert(ObjectName, DockWidget);
-			}
+			DockWidget->setDockManager(this);
+			d->DockWidgetsMap.insert(ObjectName, DockWidget);
 		}
 	}
 
@@ -682,18 +679,6 @@ void CDockManager::removeDockWidget(CDockWidget* Dockwidget)
 	d->DockWidgetsMap.remove(Dockwidget->objectName());
 	CDockContainerWidget::removeDockWidget(Dockwidget);
 	emit dockWidgetRemoved(Dockwidget);
-}
-
-//============================================================================
-void CDockManager::setDockWidgetFactoryFunc(CDockWidgetFactoryFunc value)
-{
-	d->DockWidgetFactoryFunc = std::move(value);
-}
-
-//============================================================================
-const CDockManager::CDockWidgetFactoryFunc& CDockManager::dockWidgetFactoryFunc() const
-{
-	return d->DockWidgetFactoryFunc;
 }
 
 //============================================================================

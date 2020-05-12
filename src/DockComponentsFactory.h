@@ -41,6 +41,14 @@ public:
 	virtual ~CDockComponentsFactory() {}
 
 	/**
+	 * This default implementation just creates a dock widget with
+	 * new CDockWidget(title).
+
+	 * While restoring, @ref restoreState requires all dock widgets to exist.
+	*/
+	virtual CDockWidget* createDockWidget(const QString& title) const;
+
+	/**
 	 * This default implementation just creates a dock widget tab with
 	 * new CDockWidgetTab(DockWIdget).
 	 */

@@ -22,6 +22,11 @@ namespace ads
 {
 static std::unique_ptr<CDockComponentsFactory> DefaultFactory(new CDockComponentsFactory());
 
+//============================================================================
+CDockWidget* CDockComponentsFactory::createDockWidget(const QString& title) const
+{
+	return new CDockWidget(title);
+}
 
 //============================================================================
 CDockWidgetTab* CDockComponentsFactory::createDockWidgetTab(CDockWidget* DockWidget) const
